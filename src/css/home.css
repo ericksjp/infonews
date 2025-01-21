@@ -32,3 +32,19 @@
   .footer-links a:hover {
     text-decoration: underline;
   }
+  #back-to-top {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #back-to-top:hover {
+    display: inline;
+    color: #fff;
+    text-decoration: underline;
+  }
+  
