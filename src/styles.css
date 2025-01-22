@@ -1,3 +1,7 @@
+/*  importando icons do boxIcons */
+
+@import url("https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css");
+
 :root {
   --color-bg-primary: #f5f5f5;
   --color-bg-secondary: #e0e0e0;
@@ -219,6 +223,85 @@ header {
 }
 .hamburger.active .bar:nth-child(3) {
   transform: rotate(-45deg) translateY(-11.5px);
+}
+
+/* modal para mostrar uma noticia */
+
+.modal-noticia {
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  background-color: var(--color-bg-primary);
+  height: 100vh;
+  z-index: 2000;
+  animation: showModal 0.2s ease-out forwards;
+}
+
+.modal-noticia.hide {
+  animation: hideModal 0.2s ease-out forwards;
+}
+
+.modal-noticia-header {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-text-secondary);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
+  justify-content: space-between;
+  padding: 0 3vh 0 3vh;
+}
+
+.modal-noticia-header .icon-close {
+  font-size: 30px;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.modal-noticia-body {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+}
+
+.conteiner-central-noticia {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  margin-top: 5vh;
+}
+
+.conteiner-central-noticia h1 {
+  font-style: normal;
+  text-align: justify;
+}
+
+body.modal-aberto {
+  overflow: hidden;
+}
+
+@keyframes showModal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hideModal {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @media (min-width: 769px) {
