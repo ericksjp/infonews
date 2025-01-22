@@ -21,25 +21,15 @@
           </div>
 
           <ul class="nav-menu">
-            <li id="search-input" class="nav-item">
-              <a href="#technology" class="nav-link">
-                <object
-                  data="./assets/search-icon.svg"
-                  type="image/svg+xml"
-                  width="20"
-                  height="20"
-                ></object>
-                Buscar
-              </a>
+            <li class="nav-item current-noticia-filter">
+              <a href="#all" class="nav-link">All</a>
             </li>
+
             <li class="nav-item">
               <a href="#business" class="nav-link">Business</a>
             </li>
             <li class="nav-item">
               <a href="#entertainment" class="nav-link">Entertainment</a>
-            </li>
-            <li class="nav-item">
-              <a href="#general" class="nav-link">General</a>
             </li>
             <li class="nav-item">
               <a href="#health" class="nav-link">Health</a>
@@ -58,15 +48,35 @@
       </div>
     </header>
     <hr />
-    <div style="color: red; background-color: rgb(255, 255, 255); height: 130rem"></div>
-    
+
+    <main>
+      <section id="secao-noticias-destaque"></section>
+
+      <div id="search-input-div" class="ifn-container">
+        <img src="./assets/search-icon.svg" alt="" id="search-icon" />
+        <form id="input-form" onsubmit="event.preventDefault();" role="search">
+          <label for="search">Search for stuff</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search News..."
+            autofocus
+            required
+          />
+          <button class="input-btn" id="input-btn" type="submit">Go</button>
+        </form>
+      </div>
+
+      <section id="secao-noticias-regular" class="flex-column"></section>
+    </main>
+
     <footer class="rodape">
       <p>&copy; 2025 Todos os direitos reservados.</p>
       <ul class="footer-links">
         <li><a href="#">Sobre</a></li>
         <li><a href="#">Contato</a></li>
-        <li><a href="#">Política de Privacidade</a></li> 
-      </ul> 
+        <li><a href="#">Política de Privacidade</a></li>
+      </ul>
       <p><button id="back-to-top">Voltar ao início</button></p>
     </footer>
 
