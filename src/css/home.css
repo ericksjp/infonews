@@ -1,3 +1,4 @@
+@import url("../styles.css");
 /* Article Styles */
 
 #page-identifier {
@@ -32,9 +33,10 @@ main {
   margin-top: auto;
   background-color: rgb(0, 0, 0, 0.5);
   padding: 0.5rem 1.4rem;
-  .noticia-descricao {
-    margin-bottom: 1rem;
-  }
+}
+
+#secao-noticias-destaque .noticia-areaTexto .noticia-descricao {
+  margin-bottom: 1rem;
 }
 
 .noticia {
@@ -104,18 +106,18 @@ main {
 #noticia-principal {
   height: 100%;
   padding: 0rem;
+}
 
-  & h3 {
-    /* font-size: 1.5rem; */
-    line-clamp: initial;
-    -webkit-line-clamp: 6; /* Number of lines before truncating */
-  }
+#noticia-principal h3 {
+  /* font-size: 1.5rem; */
+  line-clamp: initial;
+  -webkit-line-clamp: 6; /* Number of lines before truncating */
+}
 
-  & p {
-    line-clamp: initial;
-    -webkit-line-clamp: 4; /* Number of lines before truncating */
-    /* font-size: 1.1rem; */
-  }
+#noticia-principal p {
+  line-clamp: initial;
+  -webkit-line-clamp: 4; /* Number of lines before truncating */
+  /* font-size: 1.1rem; */
 }
 
 #noticiasSecundarias-div {
@@ -130,29 +132,29 @@ main {
   flex-direction: row;
   height: fit-content;
   border-bottom: 1px solid var(--color-text-secondary);
+}
 
-  & .noticia-imagem {
-    border-radius: var(--border-radius-md);
-    display: none;
-    width: 40%;
-    max-width: 250px;
-    object-fit: cover;
-  }
+.noticia-regular .noticia-imagem {
+  border-radius: var(--border-radius-md);
+  display: none;
+  width: 40%;
+  max-width: 250px;
+  object-fit: cover;
+}
 
-  & .noticia-titulo {
-    color: var(--color-text-dark);
-  }
+.noticia-regular .noticia-titulo {
+  color: var(--color-text-dark);
+}
 
-  & .noticia-descricao {
-    color: var(--color-text-terciary);
-  }
+.noticia-regular .noticia-descricao {
+  color: var(--color-text-terciary);
+}
 
-  & .noticia-areaTexto {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    margin-bottom: 4px;
-  }
+.noticia-regular .noticia-areaTexto {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin-bottom: 4px;
 }
 
 #secao-noticias-regular {
@@ -237,6 +239,12 @@ main {
 .footer-links a:hover {
   text-decoration: underline;
 }
+
+#back-to-top-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
 #back-to-top {
   background-color: #333;
   color: #fff;
@@ -248,7 +256,6 @@ main {
 }
 
 #back-to-top:hover {
-  display: inline;
   color: #fff;
   text-decoration: underline;
 }

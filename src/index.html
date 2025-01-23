@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>InfoNews - Home</title>
     <link rel="stylesheet" href="./css/home.css" />
   </head>
   <body>
@@ -48,25 +48,22 @@
       </div>
     </header>
     <hr />
-
+    <div id="search-input-div" class="ifn-container">
+      <img src="./assets/search-icon.svg" alt="" id="search-icon" />
+      <form id="input-form" onsubmit="event.preventDefault();" role="search">
+        <label for="search">Search for stuff</label>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search News..."
+          autofocus
+          required
+        />
+        <button class="input-btn" id="input-btn" type="submit">Go</button>
+      </form>
+    </div>
     <main>
       <section id="secao-noticias-destaque"></section>
-
-      <div id="search-input-div" class="ifn-container">
-        <img src="./assets/search-icon.svg" alt="" id="search-icon" />
-        <form id="input-form" onsubmit="event.preventDefault();" role="search">
-          <label for="search">Search for stuff</label>
-          <input
-            id="search"
-            type="search"
-            placeholder="Search News..."
-            autofocus
-            required
-          />
-          <button class="input-btn" id="input-btn" type="submit">Go</button>
-        </form>
-      </div>
-
       <section id="secao-noticias-regular" class="flex-column"></section>
     </main>
 
@@ -77,7 +74,7 @@
         <li><a href="#">Contato</a></li>
         <li><a href="#">Política de Privacidade</a></li>
       </ul>
-      <p><button id="back-to-top">Voltar ao início</button></p>
+      <p><a href="#" id="back-to-top">Voltar ao início</a></p>
     </footer>
 
     <script type="module" src="./main.js"></script>
