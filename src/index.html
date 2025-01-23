@@ -21,27 +21,28 @@
           </div>
 
           <ul class="nav-menu">
-            <li class="nav-item current-noticia-filter">
-              <a href="#all" class="nav-link">All</a>
+            <!-- O nome All é mais bonitinho, mas na api, o correto é general, por isso ta diferent -->
+            <li class="nav-item current-selected-item" id="general">
+              <a class="nav-link">All</a>
             </li>
 
-            <li class="nav-item">
-              <a href="#business" class="nav-link">Business</a>
+            <li class="nav-item" id="business">
+              <a class="nav-link">Business</a>
             </li>
-            <li class="nav-item">
-              <a href="#entertainment" class="nav-link">Entertainment</a>
+            <li class="nav-item" id="entertainment">
+              <a class="nav-link">Entertainment</a>
             </li>
-            <li class="nav-item">
-              <a href="#health" class="nav-link">Health</a>
+            <li class="nav-item" id="health">
+              <a class="nav-link">Health</a>
             </li>
-            <li class="nav-item">
-              <a href="#science" class="nav-link">Science</a>
+            <li class="nav-item" id="science">
+              <a class="nav-link">Science</a>
             </li>
-            <li class="nav-item">
-              <a href="#sports" class="nav-link">Sports</a>
+            <li class="nav-item" id="sports">
+              <a class="nav-link">Sports</a>
             </li>
-            <li class="nav-item">
-              <a href="#technology" class="nav-link">Technology</a>
+            <li class="nav-item" id="technology">
+              <a class="nav-link">Technology</a>
             </li>
           </ul>
         </nav>
@@ -50,10 +51,14 @@
     <hr />
 
     <main>
-      <section id="secao-noticias-destaque"></section>
-
       <div id="search-input-div" class="ifn-container">
-        <img src="./assets/search-icon.svg" alt="" id="search-icon" />
+        <img
+          src="./assets/search-icon.svg"
+          alt=""
+          id="search-icon"
+          width="25"
+          height="25"
+        />
         <form id="input-form" onsubmit="event.preventDefault();" role="search">
           <label for="search">Search for stuff</label>
           <input
@@ -66,7 +71,7 @@
           <button class="input-btn" id="input-btn" type="submit">Go</button>
         </form>
       </div>
-
+      <section id="secao-noticias-destaque"></section>
       <section id="secao-noticias-regular" class="flex-column"></section>
     </main>
 

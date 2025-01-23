@@ -10,13 +10,13 @@ export function getTimePassed(publishedAt) {
   const days = Math.floor(hours / 24);
 
   if (days > 0) {
-    return `Published: ${days} days ago`;
+    return `${days} day${days === 1 ? "" : "s"} ago`;
   } else if (hours > 0) {
-    return `Published: ${hours} hours ago`;
+    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
   } else if (minutes > 0) {
-    return `Published: ${minutes} minutes ago`;
+    return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
   } else {
-    return `Published: ${seconds} seconds ago`;
+    return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
   }
 }
 
