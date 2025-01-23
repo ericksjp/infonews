@@ -1,9 +1,22 @@
 import "./listeners/globalListeners.js";
-import { createModalNoticia } from "./util/createmodalNews.js";
+import { ModalNews } from "./util/createmodalNews.js";
 import noticias from "./util/mockData.js";
+
+const modalNewsAllArticles = new ModalNews(
+  noticias.all.articles,
+  noticias.all.articles.length
+);
 
 const openModal = document.querySelector("#openModal");
 
 openModal.addEventListener("click", () => {
-  createModalNoticia(noticias.all.articles, 3, noticias.all.articles.length);
+  modalNewsAllArticles.create(2);
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  fetch(
+    "https://newsapi.org/v2/everything?q=cnn&apiKey=23df153f2c7b4529bc4cd27f5d701952"
+  )
+    .then((data) => data.json())
+    .then((result) => console.log(result));
 });
