@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>InfoNews - Home</title>
     <link rel="stylesheet" href="./css/home.css" />
   </head>
   <body>
@@ -21,56 +21,48 @@
           </div>
 
           <ul class="nav-menu">
-            <!-- O nome All é mais bonitinho, mas na api, o correto é general, por isso ta diferent -->
-            <li class="nav-item current-selected-item" id="general">
-              <a class="nav-link">All</a>
+            <li class="nav-item current-noticia-filter">
+              <a href="#all" class="nav-link">All</a>
             </li>
 
-            <li class="nav-item" id="business">
-              <a class="nav-link">Business</a>
+            <li class="nav-item">
+              <a href="#business" class="nav-link">Business</a>
             </li>
-            <li class="nav-item" id="entertainment">
-              <a class="nav-link">Entertainment</a>
+            <li class="nav-item">
+              <a href="#entertainment" class="nav-link">Entertainment</a>
             </li>
-            <li class="nav-item" id="health">
-              <a class="nav-link">Health</a>
+            <li class="nav-item">
+              <a href="#health" class="nav-link">Health</a>
             </li>
-            <li class="nav-item" id="science">
-              <a class="nav-link">Science</a>
+            <li class="nav-item">
+              <a href="#science" class="nav-link">Science</a>
             </li>
-            <li class="nav-item" id="sports">
-              <a class="nav-link">Sports</a>
+            <li class="nav-item">
+              <a href="#sports" class="nav-link">Sports</a>
             </li>
-            <li class="nav-item" id="technology">
-              <a class="nav-link">Technology</a>
+            <li class="nav-item">
+              <a href="#technology" class="nav-link">Technology</a>
             </li>
           </ul>
         </nav>
       </div>
     </header>
     <hr />
-
-    <main>
-      <div id="search-input-div" class="ifn-container">
-        <img
-          src="./assets/search-icon.svg"
-          alt=""
-          id="search-icon"
-          width="25"
-          height="25"
+    <div id="search-input-div" class="ifn-container">
+      <img src="./assets/search-icon.svg" alt="" id="search-icon" />
+      <form id="input-form" onsubmit="event.preventDefault();" role="search">
+        <label for="search">Search for stuff</label>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search News..."
+          autofocus
+          required
         />
-        <form id="input-form" onsubmit="event.preventDefault();" role="search">
-          <label for="search">Search for stuff</label>
-          <input
-            id="search"
-            type="search"
-            placeholder="Search News..."
-            autofocus
-            required
-          />
-          <button class="input-btn" id="input-btn" type="submit">Go</button>
-        </form>
-      </div>
+        <button class="input-btn" id="input-btn" type="submit">Go</button>
+      </form>
+    </div>
+    <main>
       <section id="secao-noticias-destaque"></section>
       <section id="secao-noticias-regular" class="flex-column"></section>
     </main>
@@ -82,7 +74,7 @@
         <li><a href="#">Contato</a></li>
         <li><a href="#">Política de Privacidade</a></li>
       </ul>
-      <p><button id="back-to-top">Voltar ao início</button></p>
+      <p><a href="#" id="back-to-top">Voltar ao início</a></p>
     </footer>
 
     <script type="module" src="./main.js"></script>
@@ -90,3 +82,4 @@
     <script src="footer.js"></script>
   </body>
 </html>
+
