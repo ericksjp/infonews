@@ -1,24 +1,25 @@
+import { criarNoticiaRegular } from "../ui/homeUiHandler";
+import { getTimePassed } from "./generic";
+import noticias from "./mockData";
+
 export class ModalNews {
-  constructor(arrayNews, size) {
-    this.news = arrayNews;
-    this.sizeNews = size;
-    this.body = document.body;
-
+  constructor() {
     this.currentNoticia;
-    this.nextNoticia;
-    this.previousNoticia;
+    this.body = document.body;
   }
+  create(currentNoticia) {
+    this.currentNoticia = currentNoticia;
 
-  create(index) {
+    let modal = document.querySelector(".modal-noticia");
+
+    if (modal) {
+      this.updateContent(modal);
+      return;
+    }
+
     this.body.classList.add("modal-aberto");
 
-    this.currentNoticia = this.news[index];
-
-    this.nextNoticia = index >= this.sizeNews - 1 ? null : this.news[index + 1];
-
-    this.previousNoticia = index <= 0 ? null : this.news[index - 1];
-
-    const modal = document.createElement("div");
+    modal = document.createElement("div");
     modal.classList.add("modal-noticia");
 
     this.renderHeader(modal);
@@ -27,6 +28,15 @@ export class ModalNews {
     //document.createElement("")
 
     this.body.appendChild(modal);
+  }
+
+  updateContent(modal) {
+    // Limpa o conteúdo atual do modal
+    modal.innerHTML = "";
+
+    // Renderiza novamente o modal com os novos dados
+    this.renderHeader(modal);
+    this.renderBody(modal);
   }
 
   renderHeader(modal) {
@@ -78,18 +88,8 @@ export class ModalNews {
     }
 
     if (this.currentNoticia?.publishedAt) {
-      const dateFormated = new Date(
-        this.currentNoticia.publishedAt
-      ).toLocaleString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-
       const publishedAt = document.createElement("p");
-      publishedAt.textContent = dateFormated;
+      publishedAt.textContent = getTimePassed(this.currentNoticia.publishedAt);
       publishedAt.classList.add("published-at");
 
       conteinerAuthorAndDate.appendChild(publishedAt);
@@ -119,21 +119,37 @@ export class ModalNews {
       const linkFullContent = document.createElement("a");
       linkFullContent.href = this.currentNoticia.url;
       linkFullContent.target = "_blank";
-
-      const btnShowMoreContent = document.createElement("button");
-      btnShowMoreContent.textContent = "Show content complete";
+      linkFullContent.textContent = "Show content complete";
 
       const iconShowMoreContent = document.createElement("i");
       iconShowMoreContent.className = "bx bx-chevron-down";
 
-      btnShowMoreContent.appendChild(iconShowMoreContent);
-      linkFullContent.appendChild(btnShowMoreContent);
+      linkFullContent.appendChild(iconShowMoreContent);
       conteinerInfoNews.appendChild(linkFullContent);
     }
 
     conteinerNoticia.appendChild(conteinerInfoNews);
+
+    this.relatedNews(conteinerNoticia);
+
     bodyModal.appendChild(conteinerNoticia);
     modal.appendChild(bodyModal);
+  }
+
+  relatedNews(conteinerNoticia) {
+    const paragrafoRelatedNews = document.createElement("p");
+    paragrafoRelatedNews.textContent = "Related news";
+    paragrafoRelatedNews.classList.add("related-news");
+
+    const conteinerRelatedResults = document.createElement("div");
+
+    const elementos = noticias.all.articles
+      .slice(0, 5)
+      .map(criarNoticiaRegular);
+    conteinerRelatedResults.replaceChildren(...elementos);
+
+    conteinerNoticia.appendChild(paragrafoRelatedNews);
+    conteinerNoticia.appendChild(conteinerRelatedResults);
   }
 
   remove(modal) {

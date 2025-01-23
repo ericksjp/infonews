@@ -276,9 +276,13 @@ header {
 
 .conteiner-central-noticia .description {
   font-weight: lighter;
-  color: var(--color-text-dark);
   text-align: justify;
   text-indent: 2px;
+}
+
+.conteiner-central-noticia .related-news {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
 }
 
 .conteiner-central-noticia h1 {
@@ -301,23 +305,21 @@ body.modal-aberto {
   display: flex;
   align-items: center;
   a {
-    button {
-      padding: 10px;
-      border-radius: var(--border-radius-md);
-      border: none;
-      background-color: var(--color-bg-secondary);
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-      cursor: pointer;
+    padding: 10px;
+    border-radius: var(--border-radius-md);
+    border: none;
+    background-color: var(--color-bg-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    cursor: pointer;
 
-      &:hover {
-        color: var(--color-text-dark);
-      }
+    &:hover {
+      color: var(--color-text-dark);
+    }
 
-      i {
-        font-size: var(--font-size-md);
-      }
+    i {
+      font-size: var(--font-size-md);
     }
   }
 }

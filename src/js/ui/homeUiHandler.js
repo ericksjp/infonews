@@ -1,8 +1,15 @@
 import { getTimePassed, criarElemento } from "../util/generic.js";
-import { noticiasDestaqueSection, noticiasRegularesSection, noticiasSecundariasDiv } from "../util/homeTags.js"
+import { modalNews } from "../util/globalTags.js";
+import {
+  noticiasDestaqueSection,
+  noticiasRegularesSection,
+  noticiasSecundariasDiv,
+} from "../util/homeTags.js";
 
 function criarInfoNoticia(author, publishedAt) {
-  const divInformacoes = criarElemento("div", { classe: "noticia-informacoes" });
+  const divInformacoes = criarElemento("div", {
+    classe: "noticia-informacoes",
+  });
 
   const autor = criarElemento("address", {
     classe: "noticia-autor",
@@ -21,10 +28,16 @@ function criarInfoNoticia(author, publishedAt) {
   return divInformacoes;
 }
 
-function criarNoticiaRegular(dadosnoticia) {
+export function criarNoticiaRegular(dadosnoticia) {
   const { urlToImage, title, description, author, publishedAt } = dadosnoticia;
 
-  const noticia = criarElemento("noticia", { classe: "noticia-regular flex-row" });
+  const noticia = criarElemento("noticia", {
+    classe: "noticia-regular flex-row",
+  });
+
+  noticia.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
+  });
 
   const imagem = criarElemento("img", {
     classe: "noticia-imagem border-radius",
@@ -32,8 +45,14 @@ function criarNoticiaRegular(dadosnoticia) {
   });
 
   const divAreaTexto = criarElemento("div", { classe: "area-texto-noticia" });
-  const titleElemento = criarElemento("h3", { classe: "noticia-title", conteudoHTML: title });
-  const descriptionElemento = criarElemento("p", { classe: "noticia-description", conteudoHTML: description });
+  const titleElemento = criarElemento("h3", {
+    classe: "noticia-title",
+    conteudoHTML: title,
+  });
+  const descriptionElemento = criarElemento("p", {
+    classe: "noticia-description",
+    conteudoHTML: description,
+  });
 
   divAreaTexto.appendChild(titleElemento);
   divAreaTexto.appendChild(descriptionElemento);
@@ -57,11 +76,22 @@ function criarNoticiaPrincipalOuSecundaria(ePrincipal, dadosnoticia) {
     classe: `noticia ${!ePrincipal && "noticia-secundaria"}`,
     atributos: { style: `background-image: url("${urlToImage}")` },
   });
+
+  noticia.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
+  });
+
   if (ePrincipal) noticia.id = "noticia-principal";
 
   const divAreaTexto = criarElemento("div", { classe: "noticia-areaTexto" });
-  const titleElemento = criarElemento("h3", { classe: "noticia-title", conteudoHTML: title });
-  const descriptionElemento = criarElemento("p", { classe: "noticia-description", conteudoHTML: description });
+  const titleElemento = criarElemento("h3", {
+    classe: "noticia-title",
+    conteudoHTML: title,
+  });
+  const descriptionElemento = criarElemento("p", {
+    classe: "noticia-description",
+    conteudoHTML: description,
+  });
 
   divAreaTexto.appendChild(titleElemento);
   divAreaTexto.appendChild(descriptionElemento);
@@ -80,13 +110,21 @@ function adicionarNoticiasSessaoRegular(noticias) {
 }
 
 function adicionarNoticiasSessaoPrincipal(noticias) {
-  const noticiaPrincipal = criarNoticiaPrincipalOuSecundaria(true, noticias.shift());
+  const noticiaPrincipal = criarNoticiaPrincipalOuSecundaria(
+    true,
+    noticias.shift()
+  );
   noticiasDestaqueSection.replaceChildren(noticiaPrincipal);
 
-  if (noticias.lenght === 0) return noticiasDestaqueSection.classList.add("noticia-principal-only");
+  if (noticias.lenght === 0)
+    return noticiasDestaqueSection.classList.add("noticia-principal-only");
 
-  const noticiasSecundarias = noticias.map((noticia) => criarNoticiaPrincipalOuSecundaria(false, noticia));
-  const elemento = criarElemento("div", { classe: `noticiasSecundarias-${noticias.length}` });
+  const noticiasSecundarias = noticias.map((noticia) =>
+    criarNoticiaPrincipalOuSecundaria(false, noticia)
+  );
+  const elemento = criarElemento("div", {
+    classe: `noticiasSecundarias-${noticias.length}`,
+  });
   elemento.id = "noticiasSecundarias-div";
   elemento.replaceChildren(...noticiasSecundarias);
   noticiasDestaqueSection.appendChild(elemento);
@@ -120,4 +158,3 @@ export function adicionarNoticias(noticias) {
   adicionarNoticiasSessaoPrincipal(noticiasPrincipais);
   adicionarNoticiasSessaoRegular(noticiasRegulares);
 }
-
