@@ -37,7 +37,7 @@
 
 @media (min-width: 1280px) {
   html {
-    font-size: 95%;
+    font-size: 90%;
   }
 }
 
@@ -167,12 +167,10 @@ header {
 
 .nav-item a:hover {
   background-color: var(--color-hover);
-  /* padding: 0.7rem; */
-  border-bottom: 1px solid var(--color-text-dark) !important;
-  cursor: pointer;
+  padding: 0.7rem;
 }
 
-.current-selected-item {
+.current-noticia-filter {
   border-top: 1px solid var(--color-text-dark) !important;
   border-bottom: 1px solid var(--color-text-dark) !important;
   background-color: var(--color-hover);
@@ -234,7 +232,7 @@ header {
     width: fit-content;
   }
 
-  .current-selected-item {
+  .current-noticia-filter {
     border-top: none !important;
   }
 
@@ -271,7 +269,7 @@ header {
 
 #search-input-div {
   max-width: 720px;
-  margin-bottom: 1rem;
+  margin: 2rem auto;
   display: flex;
   align-items: center;
   gap: 0.8rem;

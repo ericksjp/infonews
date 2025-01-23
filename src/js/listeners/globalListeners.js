@@ -1,35 +1,7 @@
 // Esse arquivo contem os listeners que serão aplicados a todas as paginas do site.
-import {
-  header,
-  title,
-  hamburger,
-  nav_menu,
-  nav_items,
-} from "../util/globalTags.js";
-import apiService from "../services/newsApiService.js";
-import { adicionarNoticias } from "../ui/homeUiHandler.js";
+import { header, title, hamburger, nav_menu } from "../util/globalTags.js";
 
-nav_items.forEach((e) => {
-  e.addEventListener("click", async () => {
-    if (e.classList.contains("current-selected-item")) return;
-    document
-      .querySelector(".current-selected-item")
-      .classList.remove("current-selected-item");
-    e.classList.add("current-selected-item");
-
-    // se o usuario nao estiver na home, seta um atributo no sessionStorage indicando em qual
-    // item ele clickou e redireciona pra home
-    if (window.location.pathname !== "/index.html") {
-      sessionStorage.setItem("current-news-page", e.id);
-      window.location.href = "/index.html";
-    } else {
-      const news = await apiService.getNewsByCategory(e.id);
-      adicionarNoticias(news);
-    }
-  });
-});
-
-// Make the header hide when scrolling
+// torna o header fixo ao rolar a página
 window.addEventListener("scroll", () => {
   if (window.scrollY > header.offsetHeight) {
     if (window.innerWidth > 769) title.style.fontSize = "var(--font-size-xl)";

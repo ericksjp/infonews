@@ -1,24 +1,18 @@
 import { getTimePassed, criarElemento } from "../util/generic.js";
-import {
-  noticiasDestaqueSection,
-  noticiasRegularesSection,
-  noticiasSecundariasDiv,
-} from "../util/homeTags.js";
+import { noticiasDestaqueSection, noticiasRegularesSection, noticiasSecundariasDiv } from "../util/homeTags.js"
 
 function criarInfoNoticia(author, publishedAt) {
-  const divInformacoes = criarElemento("div", {
-    classe: "noticia-informacoes",
-  });
+  const divInformacoes = criarElemento("div", { classe: "noticia-informacoes" });
 
-  const autor = criarElemento("span", {
+  const autor = criarElemento("address", {
     classe: "noticia-autor",
-    conteudoHTML: `By: ${author || "Unknown"}`,
+    conteudoHTML: `<span>By: </span><a>${author}</a>`,
   });
 
   const tempo = criarElemento("time", {
     classe: "notica-dataPublicacao",
     atributos: { dateTime: publishedAt },
-    conteudoTexto: publishedAt && getTimePassed(publishedAt) || "Unknown",
+    conteudoTexto: getTimePassed(publishedAt),
   });
 
   divInformacoes.appendChild(autor);
@@ -30,35 +24,18 @@ function criarInfoNoticia(author, publishedAt) {
 function criarNoticiaRegular(dadosnoticia) {
   const { urlToImage, title, description, author, publishedAt } = dadosnoticia;
 
-  const noticia = criarElemento("noticia", {
-    classe: "noticia-regular flex-row",
-  });
+  const noticia = criarElemento("noticia", { classe: "noticia-regular flex-row" });
 
   const imagem = criarElemento("img", {
     classe: "noticia-imagem border-radius",
-    atributos: {
-      src: urlToImage || "../../assets/News-Placeholder.webp",
-      alt: "",
-      style: `
-        background-image: url(../../assets/News-Placeholder.webp);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-`,
-    },
+    atributos: { src: urlToImage, alt: "" },
   });
 
   const divAreaTexto = criarElemento("div", { classe: "area-texto-noticia" });
-  const linkElement = criarElemento("a", {
-    classe: "noticia-link",
-    conteudoHTML: title,
-  });
-  const descriptionElemento = criarElemento("p", {
-    classe: "noticia-descricao",
-    conteudoHTML: description,
-  });
+  const titleElemento = criarElemento("h3", { classe: "noticia-title", conteudoHTML: title });
+  const descriptionElemento = criarElemento("p", { classe: "noticia-description", conteudoHTML: description });
 
-  divAreaTexto.appendChild(linkElement);
+  divAreaTexto.appendChild(titleElemento);
   divAreaTexto.appendChild(descriptionElemento);
 
   const divInformacoes = criarInfoNoticia(author, publishedAt);
@@ -78,29 +55,13 @@ function criarNoticiaPrincipalOuSecundaria(ePrincipal, dadosnoticia) {
 
   const noticia = criarElemento("article", {
     classe: `noticia ${!ePrincipal && "noticia-secundaria"}`,
-    atributos: {
-      style: `background-image: url("../../assets/News-Placeholder.webp");`,
-    },
+    atributos: { style: `background-image: url("${urlToImage}")` },
   });
-  const image = urlToImage ? new Image() : null;
-  if (image) {
-    image.src = urlToImage;
-    image.onload = () => {
-      noticia.style.backgroundImage = `url(${urlToImage})`;
-    };
-  }
-
   if (ePrincipal) noticia.id = "noticia-principal";
 
   const divAreaTexto = criarElemento("div", { classe: "noticia-areaTexto" });
-  const titleElemento = criarElemento("h3", {
-    classe: "noticia-titulo",
-    conteudoHTML: title,
-  });
-  const descriptionElemento = criarElemento("p", {
-    classe: "noticia-descricao",
-    conteudoHTML: description,
-  });
+  const titleElemento = criarElemento("h3", { classe: "noticia-title", conteudoHTML: title });
+  const descriptionElemento = criarElemento("p", { classe: "noticia-description", conteudoHTML: description });
 
   divAreaTexto.appendChild(titleElemento);
   divAreaTexto.appendChild(descriptionElemento);
@@ -119,23 +80,13 @@ function adicionarNoticiasSessaoRegular(noticias) {
 }
 
 function adicionarNoticiasSessaoPrincipal(noticias) {
-  const noticiaPrincipal = criarNoticiaPrincipalOuSecundaria(
-    true,
-    noticias.shift(),
-  );
+  const noticiaPrincipal = criarNoticiaPrincipalOuSecundaria(true, noticias.shift());
   noticiasDestaqueSection.replaceChildren(noticiaPrincipal);
 
-  if (noticias.length === 0) {
-    console.log(noticiasDestaqueSection);
-    return noticiasDestaqueSection.classList.add("noticia-principal-only");
-  }
+  if (noticias.lenght === 0) return noticiasDestaqueSection.classList.add("noticia-principal-only");
 
-  const noticiasSecundarias = noticias.map((noticia) =>
-    criarNoticiaPrincipalOuSecundaria(false, noticia),
-  );
-  const elemento = criarElemento("div", {
-    classe: `noticiasSecundarias-${noticias.length}`,
-  });
+  const noticiasSecundarias = noticias.map((noticia) => criarNoticiaPrincipalOuSecundaria(false, noticia));
+  const elemento = criarElemento("div", { classe: `noticiasSecundarias-${noticias.length}` });
   elemento.id = "noticiasSecundarias-div";
   elemento.replaceChildren(...noticiasSecundarias);
   noticiasDestaqueSection.appendChild(elemento);
@@ -159,7 +110,7 @@ function adicionarNoticiasSessaoPrincipal(noticias) {
 export function adicionarNoticias(noticias) {
   if (noticias.length === 0) {
     noticiasDestaqueSection.innerHTML = "<h2>Nenhuma notícia encontrada</h2>";
-    // noticiasRegularesSection.innerHTML = "<h2>Nenhuma notícia encontrada</h2>";
+    noticiasRegularesSection.innerHTML = "<h2>Nenhuma notícia encontrada</h2>";
     return;
   }
 
@@ -169,3 +120,4 @@ export function adicionarNoticias(noticias) {
   adicionarNoticiasSessaoPrincipal(noticiasPrincipais);
   adicionarNoticiasSessaoRegular(noticiasRegulares);
 }
+

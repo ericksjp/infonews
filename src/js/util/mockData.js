@@ -1,5 +1,5 @@
 const noticias = {
-  general: {
+  all: {
     articles: [
       {
         source: {
@@ -315,7 +315,7 @@ const noticias = {
     ],
   },
   business: {
-    articles: [
+    sources: [
       {
         id: "argaam",
         name: "Argaam",
@@ -448,7 +448,7 @@ const noticias = {
     ],
   },
   entertainment: {
-    articles: [
+    sources: [
       {
         id: "buzzfeed",
         name: "Buzzfeed",
@@ -533,7 +533,7 @@ const noticias = {
   },
 
   health: {
-    articles: [
+    sources: [
       {
         id: "medical-news-today",
         name: "Medical News Today",
@@ -548,7 +548,7 @@ const noticias = {
   },
 
   science: {
-    articles: [
+    sources: [
       {
         id: "national-geographic",
         name: "National Geographic",
@@ -583,7 +583,7 @@ const noticias = {
   },
 
   sports: {
-    articles: [
+    sources: [
       {
         id: "bbc-sport",
         name: "BBC Sport",
@@ -718,7 +718,7 @@ const noticias = {
   },
 
   technology: {
-    articles: [
+    sources: [
       {
         id: "ars-technica",
         name: "Ars Technica",
@@ -862,19 +862,5 @@ const noticias = {
     ],
   },
 };
-
-export async function simulateRequest(category) {
-  const time = Math.round(Math.random() * 1000);
-  const rejected = Math.random() > 0.8;
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      // if (rejected) {
-      //   reject(new Error("Request failed"));
-      //   return;
-      // }
-      resolve(noticias[category]);
-    }, time);
-  });
-}
 
 export default noticias;
