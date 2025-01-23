@@ -1,3 +1,4 @@
+@import url("../styles.css");
 /* Article Styles */
 
 body {
@@ -123,6 +124,7 @@ noticia a:hover {
 #noticia-principal {
   height: 100%;
   padding: 0rem;
+}
 
   & h3 {
     font-size: 1.3rem;
@@ -170,12 +172,11 @@ noticia a:hover {
     height: 175px;
   }
 
-  & .noticia-areaTexto {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    margin-bottom: 4px;
-  }
+.noticia-regular .noticia-areaTexto {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin-bottom: 4px;
 }
 
 #secao-noticias-regular {
@@ -256,6 +257,12 @@ noticia a:hover {
 .footer-links a:hover {
   text-decoration: underline;
 }
+
+#back-to-top-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
 #back-to-top {
   background-color: #333;
   color: #fff;
@@ -267,7 +274,6 @@ noticia a:hover {
 }
 
 #back-to-top:hover {
-  display: inline;
   color: #fff;
   text-decoration: underline;
 }
