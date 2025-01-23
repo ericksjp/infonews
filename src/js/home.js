@@ -1,3 +1,4 @@
+import { adicionarNoticias } from "./ui/homeUiHandler.js";
 import "./listeners/globalListeners.js";
 import { ModalNews } from "./util/createmodalNews.js";
 import noticias from "./util/mockData.js";
@@ -20,3 +21,7 @@ window.addEventListener("DOMContentLoaded", () => {
     .then((data) => data.json())
     .then((result) => console.log(result));
 });
+
+(() => {
+  adicionarNoticias(noticias.all.articles);
+})();
