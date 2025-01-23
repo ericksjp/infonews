@@ -35,10 +35,6 @@ export function criarNoticiaRegular(dadosnoticia) {
     classe: "noticia-regular flex-row",
   });
 
-  noticia.addEventListener("click", () => {
-    modalNews.create(dadosnoticia);
-  });
-
   const imagem = criarElemento("img", {
     classe: "noticia-imagem border-radius",
     atributos: {
@@ -58,6 +54,11 @@ export function criarNoticiaRegular(dadosnoticia) {
     classe: "noticia-link",
     conteudoHTML: title,
   });
+
+  linkElement.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
+  });
+
   const descriptionElemento = criarElemento("p", {
     classe: "noticia-descricao",
     conteudoHTML: description,
@@ -87,6 +88,11 @@ function criarNoticiaPrincipalOuSecundaria(ePrincipal, dadosnoticia) {
       style: `background-image: url("../../assets/News-Placeholder.webp");`,
     },
   });
+
+  noticia.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
+  });
+
   const image = urlToImage ? new Image() : null;
   if (image) {
     image.src = urlToImage;

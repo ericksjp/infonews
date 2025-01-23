@@ -8,6 +8,7 @@ export class ModalNews {
     this.body = document.body;
   }
   create(currentNoticia) {
+    console.log(currentNoticia);
     this.currentNoticia = currentNoticia;
 
     let modal = document.querySelector(".modal-noticia");
@@ -143,7 +144,7 @@ export class ModalNews {
 
     const conteinerRelatedResults = document.createElement("div");
 
-    const elementos = noticias.all.articles
+    const elementos = noticias.general.articles
       .slice(0, 5)
       .map(criarNoticiaRegular);
     conteinerRelatedResults.replaceChildren(...elementos);

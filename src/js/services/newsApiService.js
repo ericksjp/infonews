@@ -56,7 +56,9 @@ class ApiService {
     this.#validateCategory(category);
 
     const response = await fetch(
-      `${this.#baseUrl}/top-headlines?category=${category}&apiKey=${this.apiKey}`,
+      `${this.#baseUrl}/top-headlines?category=${category}&apiKey=${
+        this.apiKey
+      }`
     );
     let data;
     if (response.status !== 200) {
@@ -89,9 +91,9 @@ class ApiService {
 }
 
 const apiService = new ApiService(
-  "f9af5ef8f3ee49c5bd31b9d48e42c44e", // triste, porem necessario :(
+  "23df153f2c7b4529bc4cd27f5d701952", // triste, porem necessario :(
   120,
-  "publishedAt",
+  "publishedAt"
 );
 
 export default apiService;
