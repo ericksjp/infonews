@@ -1,4 +1,5 @@
 import { getTimePassed, criarElemento } from "../util/generic.js";
+import { modalNews } from "../util/globalTags.js";
 import {
   noticiasDestaqueSection,
   noticiasRegularesSection,
@@ -18,7 +19,7 @@ function criarInfoNoticia(author, publishedAt) {
   const tempo = criarElemento("time", {
     classe: "notica-dataPublicacao",
     atributos: { dateTime: publishedAt },
-    conteudoTexto: publishedAt && getTimePassed(publishedAt) || "Unknown",
+    conteudoTexto: (publishedAt && getTimePassed(publishedAt)) || "Unknown",
   });
 
   divInformacoes.appendChild(autor);
@@ -27,11 +28,15 @@ function criarInfoNoticia(author, publishedAt) {
   return divInformacoes;
 }
 
-function criarNoticiaRegular(dadosnoticia) {
+export function criarNoticiaRegular(dadosnoticia) {
   const { urlToImage, title, description, author, publishedAt } = dadosnoticia;
 
   const noticia = criarElemento("noticia", {
     classe: "noticia-regular flex-row",
+  });
+
+  noticia.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
   });
 
   const imagem = criarElemento("img", {
@@ -53,6 +58,7 @@ function criarNoticiaRegular(dadosnoticia) {
     classe: "noticia-link",
     conteudoHTML: title,
   });
+
   const descriptionElemento = criarElemento("p", {
     classe: "noticia-descricao",
     conteudoHTML: description,
@@ -82,6 +88,11 @@ function criarNoticiaPrincipalOuSecundaria(ePrincipal, dadosnoticia) {
       style: `background-image: url("../../assets/News-Placeholder.webp");`,
     },
   });
+
+  noticia.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
+  });
+
   const image = urlToImage ? new Image() : null;
   if (image) {
     image.src = urlToImage;
@@ -121,7 +132,7 @@ function adicionarNoticiasSessaoRegular(noticias) {
 function adicionarNoticiasSessaoPrincipal(noticias) {
   const noticiaPrincipal = criarNoticiaPrincipalOuSecundaria(
     true,
-    noticias.shift(),
+    noticias.shift()
   );
   noticiasDestaqueSection.replaceChildren(noticiaPrincipal);
 
@@ -131,7 +142,7 @@ function adicionarNoticiasSessaoPrincipal(noticias) {
   }
 
   const noticiasSecundarias = noticias.map((noticia) =>
-    criarNoticiaPrincipalOuSecundaria(false, noticia),
+    criarNoticiaPrincipalOuSecundaria(false, noticia)
   );
   const elemento = criarElemento("div", {
     classe: `noticiasSecundarias-${noticias.length}`,
