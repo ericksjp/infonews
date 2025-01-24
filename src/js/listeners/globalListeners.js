@@ -4,29 +4,12 @@ import {
   title,
   hamburger,
   nav_menu,
-  nav_items,
+  nav_links,
 } from "../util/globalTags.js";
-import apiService from "../services/newsApiService.js";
-import { adicionarNoticias } from "../ui/homeUiHandler.js";
+import { handleNavLinkClick } from "../ui/homeUiHandler.js";
 
-nav_items.forEach((e) => {
-  e.addEventListener("click", async () => {
-    if (e.classList.contains("current-selected-item")) return;
-    document
-      .querySelector(".current-selected-item")
-      .classList.remove("current-selected-item");
-    e.classList.add("current-selected-item");
-
-    // se o usuario nao estiver na home, seta um atributo no sessionStorage indicando em qual
-    // item ele clickou e redireciona pra home
-    if (window.location.pathname !== "/index.html") {
-      sessionStorage.setItem("current-news-page", e.id);
-      window.location.href = "/index.html";
-    } else {
-      const news = await apiService.getNewsByCategory(e.id);
-      adicionarNoticias(news);
-    }
-  });
+nav_links.forEach((e) => {
+  e.addEventListener("click", () => handleNavLinkClick(e));
 });
 
 // Make the header hide when scrolling
@@ -58,9 +41,10 @@ document.addEventListener("click", (event) => {
 });
 
 // realiza a pesquisa com base no que foi escrito
-document.getElementById('input-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const query = document.getElementById('searchInput').value;
-  localStorage.setItem('searchQuery', query);
-  window.location.href = 'pesquisa.html';
-});
+document.getElementById("input-form")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+    const query = document.getElementById("searchInput").value;
+    localStorage.setItem("searchQuery", query);
+    window.location.href = "pesquisa.html";
+  });

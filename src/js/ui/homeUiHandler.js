@@ -1,10 +1,19 @@
 import { getTimePassed, criarElemento } from "../util/generic.js";
 import { modalNews } from "../util/globalTags.js";
 import {
+  noNewsFoundH2,
+  noNewsFoundDiv,
   noticiasDestaqueSection,
   noticiasRegularesSection,
+  loader,
+  main,
   noticiasSecundariasDiv,
 } from "../util/homeTags.js";
+import { current_selected_nav_item } from "../util/globalTags.js";
+import apiService from "../services/newsApiService.js";
+import { simulateRequest } from "../util/mockData.js";
+
+/* --- helpers --- */
 
 function criarInfoNoticia(author, publishedAt) {
   const divInformacoes = criarElemento("div", {
@@ -17,7 +26,7 @@ function criarInfoNoticia(author, publishedAt) {
   });
 
   const tempo = criarElemento("time", {
-    classe: "notica-dataPublicacao",
+    classe: "noticia-dataPublicacao",
     atributos: { dateTime: publishedAt },
     conteudoTexto: (publishedAt && getTimePassed(publishedAt)) || "Unknown",
   });
@@ -28,11 +37,11 @@ function criarInfoNoticia(author, publishedAt) {
   return divInformacoes;
 }
 
-export function criarNoticiaRegular(dadosnoticia) {
+export function criarNoticiaRegular(dadosnoticia, position) {
   const { urlToImage, title, description, author, publishedAt } = dadosnoticia;
 
   const noticia = criarElemento("noticia", {
-    classe: "noticia-regular flex-row",
+    classe: "noticia-regular flex-row " + (position < 2  ? "hidden" : ""),
   });
 
   noticia.addEventListener("click", () => {
@@ -125,24 +134,23 @@ function criarNoticiaPrincipalOuSecundaria(ePrincipal, dadosnoticia) {
 }
 
 function adicionarNoticiasSessaoRegular(noticias) {
-  const elementos = noticias.map(criarNoticiaRegular);
+  const elementos = noticias.map((e, index) => criarNoticiaRegular(e, index));
   noticiasRegularesSection.replaceChildren(...elementos);
 }
 
 function adicionarNoticiasSessaoPrincipal(noticias) {
   const noticiaPrincipal = criarNoticiaPrincipalOuSecundaria(
     true,
-    noticias.shift()
+    noticias.shift(),
   );
   noticiasDestaqueSection.replaceChildren(noticiaPrincipal);
 
   if (noticias.length === 0) {
-    console.log(noticiasDestaqueSection);
     return noticiasDestaqueSection.classList.add("noticia-principal-only");
   }
 
   const noticiasSecundarias = noticias.map((noticia) =>
-    criarNoticiaPrincipalOuSecundaria(false, noticia)
+    criarNoticiaPrincipalOuSecundaria(false, noticia),
   );
   const elemento = criarElemento("div", {
     classe: `noticiasSecundarias-${noticias.length}`,
@@ -150,6 +158,23 @@ function adicionarNoticiasSessaoPrincipal(noticias) {
   elemento.id = "noticiasSecundarias-div";
   elemento.replaceChildren(...noticiasSecundarias);
   noticiasDestaqueSection.appendChild(elemento);
+}
+
+/* --- exported --- */
+
+export function handleNoNewsFound(category) {
+  noticiasDestaqueSection.classList.add("hidden");
+  noticiasRegularesSection.classList.add("hidden");
+  noNewsFoundDiv.classList.remove("hidden")
+  category = category.charAt(0).toUpperCase() + category.slice(1);
+  noNewsFoundH2.textContent = "No news found in " + category;
+  return;
+}
+
+export function handleNewsFound() {
+  noticiasDestaqueSection.classList.remove("hidden");
+  noticiasRegularesSection.classList.remove("hidden");
+  noNewsFoundDiv.classList.add("hidden")
 }
 
 /**
@@ -169,14 +194,59 @@ function adicionarNoticiasSessaoPrincipal(noticias) {
  */
 export function adicionarNoticias(noticias) {
   if (noticias.length === 0) {
-    noticiasDestaqueSection.innerHTML = "<h2>Nenhuma notícia encontrada</h2>";
-    // noticiasRegularesSection.innerHTML = "<h2>Nenhuma notícia encontrada</h2>";
+    handleNoNewsFound(current_selected_nav_item.children[0].id);
     return;
   }
+  handleNewsFound();
 
+  if (noticias.length < 4) {
+    noticiasDestaqueSection.classList.add("only-destaque-news");
+  } else {
+    noticiasDestaqueSection.classList.remove("only-destaque-news");
+  }
   const noticiasPrincipais = noticias.slice(0, 3);
-  const noticiasRegulares = noticias.slice(3);
+  // adicionar as noticias secundarias tambem na sessao de noticias regulares
+  const noticiasRegulares = noticias.slice(1);
 
   adicionarNoticiasSessaoPrincipal(noticiasPrincipais);
   adicionarNoticiasSessaoRegular(noticiasRegulares);
 }
+
+export function toggleLoader(showLoader = true) {
+  if (showLoader) {
+    loader.classList.remove("hidden");
+    main.classList.add("hidden");
+  } else {
+    loader.classList.add("hidden");
+    main.classList.remove("hidden");
+  }
+}
+
+// usa o ApiService para carregar noticias de uma categoria especifica e adiciona-las a interface do usuario
+export async function carregarNoticias(categoryId) {
+  // se as noticias estiverem cacheadas, usa elas, caso contrario, busca na api
+  let cached = apiService.getNewsByCategoryFromCache(categoryId);
+  if (cached) return adicionarNoticias(cached);
+
+  // mostrando o loader, enquanto as noticias sao carregadas
+  toggleLoader(true)
+  const news = await apiService.getNewsByCategory(categoryId)
+  adicionarNoticias(news);
+  toggleLoader(false)
+}
+
+export async function handleNavLinkClick(e) {
+  const parent = e.parentElement;
+  if (parent.classList.contains("current-selected-item")) return;
+
+  document.querySelector(".current-selected-item").classList.remove("current-selected-item");
+  parent.classList.add("current-selected-item");
+
+  if (window.location.pathname !== "/") {
+    sessionStorage.setItem("current-news-page", e.id);
+    window.location.href = "/";
+   } else {
+    await carregarNoticias(e.id);
+   }
+}
+

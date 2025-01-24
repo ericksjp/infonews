@@ -1,6 +1,6 @@
 /*  importando icons do boxIcons */
-
 @import url("https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css");
+@import url("./css/loader.css");
 
 :root {
   --color-bg-primary: #f5f5f5;
@@ -39,11 +39,11 @@
   --transition-default: 0.3s ease;
 }
 
-@media (min-width: 1280px) {
-  html {
-    font-size: 90%;
-  }
-}
+/* @media (min-width: 1280px) { */
+/*   html { */
+/*     font-size: 95%; */
+/*   } */
+/* } */
 
 /* --- Generic Styles --- */
 * {
@@ -96,6 +96,10 @@ hr {
 
 .ifn-mt20 {
   margin-top: var(--spacing-md);
+}
+
+.hidden {
+  display: none !important;
 }
 
 /*--- Header ----*/
@@ -165,17 +169,21 @@ header {
   width: 100%;
 }
 
+.nav-link:hover {
+  cursor: pointer;
+}
+
 .navbar {
   width: 100%;
 }
 
 .nav-item a:hover {
   background-color: var(--color-hover);
-  padding: 0.7rem;
+  border-bottom: 1px solid var(--color-text-dark);
 }
 
-.current-noticia-filter {
-  border-top: 1px solid var(--color-text-dark) !important;
+.current-selected-item {
+  /* border-top: 1px solid var(--color-text-dark) !important; */
   border-bottom: 1px solid var(--color-text-dark) !important;
   background-color: var(--color-hover);
   color: var(--color-text-dark);
@@ -464,7 +472,9 @@ body.modal-aberto {
 
 #search-input-div {
   max-width: 720px;
-  margin: 2rem auto;
+  width: 80%;
+  /* margin: 2rem auto; */
+  margin-bottom: 0rem;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -529,12 +539,14 @@ label {
 
 /* Disable hover effects for touch devices */
 @media (hover: none) {
-  .nav-item a:hover {
-    background-color: inherit;
-    color: inherit;
-    font-weight: inherit;
-    padding: inherit;
-    padding-bottom: inherit;
+  *:hover {
+    color: inherit !important;
+    text-decoration: inherit !important;
+    transform: inherit !important;
+    background-color: inherit !important;
+    cursor: default !important;
+    padding: inherit !important;
+    padding-bottom: inherit !important;
   }
 }
 

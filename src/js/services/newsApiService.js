@@ -1,5 +1,3 @@
-import { simulateRequest } from "../util/mockData";
-
 class ApiService {
   #categories;
   #newsMap;
@@ -13,12 +11,12 @@ class ApiService {
       "general",
       "business",
       "entertainment",
-      "general",
       "health",
       "science",
       "sports",
       "technology",
     ];
+    this.sortByOptions = ["relevancy", "popularity", "publishedAt"];
     this.#newsMap = new Map();
     this.#refreshTime = refreshTime * 1000;
     this.sortBy = sortBy;
@@ -31,19 +29,39 @@ class ApiService {
   }
 
   setRefreshTime(seconds) {
-    if (typeof seconds !== "number" || seconds <= 0)
+    if (typeof seconds !== "number" || seconds <= 0) {
       throw new Error("Refresh time must be a positive number.");
+    }
     seconds = Math.round(seconds);
     this.#refreshTime = seconds * 1000;
   }
 
-  async getNewsByCategory(category) {
+  async getNewsByCategory(category, sortBy = "relevancy") {
     this.#validateCategory(category);
-    const cached = this.#newsMap.get(category);
-    if (cached && Date.now() - cached.time <= this.#refreshTime) {
-      return cached.news;
+    this.#validateSortBy(sortBy);
+    console.log("here")
+    const data = await this.#fetchNews(category, sortBy);
+    return data.news;
+  }
+
+  getNewsByCategoryFromCache(category) {
+    this.#validateCategory(category);
+    const cachedData = this.#newsMap.get(category);
+    if (cachedData) {
+      return this.#isCachedValid(cachedData.time) ? cachedData.news : undefined;
     }
-    return await this.#fetchNews(category);
+  }
+
+  isCachedAndValid(category) {
+    const cachedData = this.#newsMap.get(category);
+    if (cachedData) {
+      return this.#isCachedValid(cachedData.time);
+    }
+    return false;
+  }
+
+  #isCachedValid(cacheTime) {
+    return Date.now() - cacheTime <= this.#refreshTime;
   }
 
   #validateCategory(category) {
@@ -52,47 +70,79 @@ class ApiService {
     }
   }
 
-  async #fetchNews(category) {
-    this.#validateCategory(category);
-
-    const response = await fetch(
-      `${this.#baseUrl}/top-headlines?category=${category}&apiKey=${
-        this.apiKey
-      }`
-    );
-    let data;
-    if (response.status !== 200) {
-      console.error("erro na api");
-      return [];
-    } else {
-      data = await response.json();
+  #validateSortBy(sortBy) {
+    if (!this.sortByOptions.includes(sortBy)) {
+      throw new Error("Invalid sortBy option");
     }
-    this.#newsMap.set(category, { time: Date.now(), news: data.articles });
-    this.#saveToStorage();
-    return data.articles;
   }
 
+  // busca as noticias da API, se ocorrer algum erro na operação, retorna as noticias do cache
+  async #fetchNews(category, sortBy) {
+    try {
+      const response = await fetch(`${this.#baseUrl}/top-headlines?category=${category}&sortBy=${sortBy}&apiKey=${this.apiKey}`);
+
+      // se a resposta nao for ok, lanca um erro
+      if (!response.ok) throw new Error(`Failed to fetch news: ${response.status}`);
+
+      const data = await response.json();
+      console.log(data)
+
+      // se a resposta nao tiver a propriedade articles, lanca um erro
+      if (!data.articles) throw new Error("Invalid response data");
+
+      const object = {time: Date.now(), news: data.articles};
+
+      // atualiza o cache e o salva no localStorage
+      this.#newsMap.set(category, object);
+      this.#saveToStorage();
+
+      // para evitar uma consulta x2 no map, retorna o objeto
+      return object;
+    } catch (err) {
+      console.error(`Error fetching news for category '${category}':`, err);
+
+      // se houver dados no cache, retorna esses dados, caso contrario, retorna um objeto com um array vazio como noticias
+      const cachedData = this.#newsMap.get(category);
+      if (cachedData) {
+        console.warn("Returning cached news due to fetch error.");
+        return cachedData;
+      }
+
+      return { time: Date.now(), news: [] };
+    }
+  }
+
+  // salva os dados no localStorage
   #saveToStorage() {
-    const data = {
-      newsMap: Array.from(this.#newsMap.entries()),
-      refreshTime: this.#refreshTime,
-    };
-    localStorage.setItem("apiService", JSON.stringify(data));
+    try {
+      const data = {
+        newsMap: Array.from(this.#newsMap.entries()),
+        refreshTime: this.#refreshTime,
+      };
+      localStorage.setItem("apiService", JSON.stringify(data));
+    } catch (err) {
+      console.error("Error saving to localStorage:", err);
+    }
   }
 
+  // recupera os dados do localStorage
   #loadFromStorage() {
-    const storedData = localStorage.getItem("apiService");
-    if (storedData) {
-      const { newsMap, refreshTime } = JSON.parse(storedData);
-      this.#newsMap = new Map(newsMap);
-      this.#refreshTime = refreshTime;
+    try {
+      const storedData = localStorage.getItem("apiService");
+      if (storedData) {
+        const { newsMap, refreshTime } = JSON.parse(storedData);
+        this.#newsMap = new Map(newsMap);
+        this.#refreshTime = refreshTime;
+      }
+    } catch (err) {
+      console.error("Error loading from localStorage:", err);
     }
   }
 }
 
 const apiService = new ApiService(
   "23df153f2c7b4529bc4cd27f5d701952", // triste, porem necessario :(
-  120,
+  300,
   "publishedAt"
 );
 

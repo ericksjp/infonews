@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -21,48 +21,52 @@
           </div>
 
           <ul class="nav-menu">
-            <li class="nav-item current-noticia-filter">
-              <a href="#all" class="nav-link">All</a>
+            <li class="nav-item current-selected-item">
+              <a class="nav-link" id="general">All</a>
             </li>
 
             <li class="nav-item">
-              <a href="#business" class="nav-link">Business</a>
+              <a class="nav-link" id="business">Business</a>
             </li>
             <li class="nav-item">
-              <a href="#entertainment" class="nav-link">Entertainment</a>
+              <a class="nav-link" id="entertainment">Entertainment</a>
             </li>
             <li class="nav-item">
-              <a href="#health" class="nav-link">Health</a>
+              <a class="nav-link" id="health">Health</a>
             </li>
             <li class="nav-item">
-              <a href="#science" class="nav-link">Science</a>
+              <a class="nav-link" id="science">Science</a>
             </li>
             <li class="nav-item">
-              <a href="#sports" class="nav-link">Sports</a>
+              <a class="nav-link" id="sports">Sports</a>
             </li>
             <li class="nav-item">
-              <a href="#technology" class="nav-link">Technology</a>
+              <a class="nav-link" id="technology">Technology</a>
             </li>
           </ul>
         </nav>
       </div>
     </header>
-    <hr />
-    <div id="search-input-div" class="ifn-container">
-      <img src="./assets/search-icon.svg" alt="" id="search-icon" />
-      <form id="input-form" onsubmit="performSearch(event);" role="search">
-        <label for="search">Search for stuff</label>
-        <input
-          id="search"
-          type="search"
-          placeholder="Search News..."
-          autofocus
-          required
-        />
-        <button class="input-btn" id="input-btn" type="submit">Go</button>
-      </form>
-    </div>
+    <div class="loader hidden"></div>
     <main>
+      <div id="search-input-div" class="ifn-container">
+        <img src="./assets/search-icon.svg" alt="" id="search-icon" />
+        <form id="input-form" onsubmit="performSearch(event);" role="search">
+          <label for="search">Search for stuff</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search News..."
+            autofocus
+            required
+          />
+          <button class="input-btn" id="input-btn" type="submit">Go</button>
+        </form>
+      </div>
+      <div id="no-news-found-div" class="hidden">
+        <h2 id="no-news-found-text"></h2>
+        <p>Try another section or search for a specific news :)</p>
+      </div>
       <section id="secao-noticias-destaque"></section>
       <section id="secao-noticias-regular" class="flex-column"></section>
     </main>
@@ -83,9 +87,9 @@
     <script>
       function performSearch(event) {
         event.preventDefault();
-        const query = document.getElementById('search').value;
-        localStorage.setItem('searchQuery', query);
-        window.location.href = 'pesquisa.html';
+        const query = document.getElementById("search").value;
+        localStorage.setItem("searchQuery", query);
+        window.location.href = "pesquisa.html";
       }
     </script>
   </body>
