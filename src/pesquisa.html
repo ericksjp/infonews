@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>InfoNews - Home</title>
+    <title>InfoNews - Pesquisa</title>
     <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/pesquisa.css" />
   </head>
   <body>
     <header>
@@ -19,12 +20,10 @@
             <span class="bar"></span>
             <span class="bar"></span>
           </div>
-
           <ul class="nav-menu">
             <li class="nav-item current-noticia-filter">
               <a href="#all" class="nav-link">All</a>
             </li>
-
             <li class="nav-item">
               <a href="#business" class="nav-link">Business</a>
             </li>
@@ -50,10 +49,10 @@
     <hr />
     <div id="search-input-div" class="ifn-container">
       <img src="./assets/search-icon.svg" alt="" id="search-icon" />
-      <form id="input-form" onsubmit="performSearch(event);" role="search">
-        <label for="search">Search for stuff</label>
+      <form id="searchForm" onsubmit="event.preventDefault();" role="search">
+        <label for="searchInput">Search for stuff</label>
         <input
-          id="search"
+          id="searchInput"
           type="search"
           placeholder="Search News..."
           autofocus
@@ -62,11 +61,11 @@
         <button class="input-btn" id="input-btn" type="submit">Go</button>
       </form>
     </div>
-    <main>
-      <section id="secao-noticias-destaque"></section>
-      <section id="secao-noticias-regular" class="flex-column"></section>
+    <main id="search-results-container">
+      <div id="newsResults">
+        <!-- Resultados da pesquisa serão adicionados aqui -->
+      </div>
     </main>
-
     <footer class="rodape">
       <p>&copy; 2025 Todos os direitos reservados.</p>
       <ul class="footer-links">
@@ -76,17 +75,10 @@
       </ul>
       <p><a href="#" id="back-to-top">Voltar ao início</a></p>
     </footer>
-
     <script type="module" src="./main.js"></script>
-    <script type="module" src="./js/home.js"></script>
+    <script type="module" src="./js/pesquisa.js"></script>
     <script src="footer.js"></script>
-    <script>
-      function performSearch(event) {
-        event.preventDefault();
-        const query = document.getElementById('search').value;
-        localStorage.setItem('searchQuery', query);
-        window.location.href = 'pesquisa.html';
-      }
-    </script>
   </body>
 </html>
+
+
