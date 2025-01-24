@@ -2,18 +2,12 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>InfoNews - Home</title>
+    <title>Sobre nós</title>
     <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/sobre.css" />
   </head>
   <body>
-    <a href="sobre.html">
-      <div class="btn-fixed-sobre">
-        <i class="bx bx-info-circle"></i>
-      </div>
-    </a>
-
     <header>
       <div class="ifn-container ifn-header">
         <h1 id="ifn-title">
@@ -53,25 +47,33 @@
         </nav>
       </div>
     </header>
-    <hr />
-    <div id="search-input-div" class="ifn-container">
-      <img src="./assets/search-icon.svg" alt="" id="search-icon" />
-      <form id="input-form" onsubmit="performSearch(event);" role="search">
-        <label for="search">Search for stuff</label>
-        <input
-          id="search"
-          type="search"
-          placeholder="Search News..."
-          autofocus
-          required
-        />
-        <button class="input-btn" id="input-btn" type="submit">Go</button>
-      </form>
+
+    <div class="conteiner-sobre">
+      <h1>Sobre nos</h1>
+      <div class="texto">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam porro
+          officia nostrum, ratione nobis dolorum iste soluta itaque sunt. Porro
+          quis eos beatae ipsum reiciendis quas, tempore eaque ab hic! Lorem
+          ipsum, dolor sit amet consectetur adipisicing elit. Autem adipisci
+          facilis nobis quis dignissimos ducimus molestias distinctio sed,
+          recusandae porro et alias. Non ut, animi temporibus dolorum deleniti
+          delectus quibusdam. Lorem ipsum dolor sit amet consectetur adipisicing
+          elit. Magnam porro officia nostrum, ratione nobis dolorum iste soluta
+          itaque sunt. Porro quis eos beatae ipsum reiciendis quas, tempore
+          eaque ab hic! Lorem ipsum, dolor sit amet consectetur adipisicing
+          elit. Autem adipisci facilis nobis quis dignissimos ducimus molestias
+          distinctio sed, recusandae porro et alias. Non ut, animi temporibus
+          dolorum deleniti delectus quibusdam. Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Magnam porro officia nostrum, ratione
+          nobis dolorum iste soluta itaque sunt. Porro quis eos beatae ipsum
+          reiciendis quas, tempore eaque ab hic! Lorem ipsum, dolor sit amet
+          consectetur adipisicing elit. Autem adipisci facilis nobis quis
+          dignissimos ducimus molestias distinctio sed, recusandae porro et
+          alias. Non ut, animi temporibus dolorum deleniti delectus quibusdam.
+        </p>
+      </div>
     </div>
-    <main>
-      <section id="secao-noticias-destaque"></section>
-      <section id="secao-noticias-regular" class="flex-column"></section>
-    </main>
 
     <footer class="rodape">
       <p>&copy; 2025 Todos os direitos reservados.</p>
@@ -86,13 +88,5 @@
     <script type="module" src="./main.js"></script>
     <script type="module" src="./js/home.js"></script>
     <script src="footer.js"></script>
-    <script>
-      function performSearch(event) {
-        event.preventDefault();
-        const query = document.getElementById("search").value;
-        localStorage.setItem("searchQuery", query);
-        window.location.href = "pesquisa.html";
-      }
-    </script>
   </body>
 </html>
