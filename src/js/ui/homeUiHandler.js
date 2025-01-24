@@ -35,6 +35,10 @@ export function criarNoticiaRegular(dadosnoticia) {
     classe: "noticia-regular flex-row",
   });
 
+  noticia.addEventListener("click", () => {
+    modalNews.create(dadosnoticia);
+  });
+
   const imagem = criarElemento("img", {
     classe: "noticia-imagem border-radius",
     atributos: {
@@ -53,10 +57,6 @@ export function criarNoticiaRegular(dadosnoticia) {
   const linkElement = criarElemento("a", {
     classe: "noticia-link",
     conteudoHTML: title,
-  });
-
-  linkElement.addEventListener("click", () => {
-    modalNews.create(dadosnoticia);
   });
 
   const descriptionElemento = criarElemento("p", {

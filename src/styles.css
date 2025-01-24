@@ -240,6 +240,10 @@ header {
   padding: 0 3vh 0 3vh;
 }
 
+.modal-noticia-header p {
+  font-size: var(--font-size-md);
+}
+
 .modal-noticia-header .icon-close {
   font-size: 30px;
   color: var(--color-text-dark);
@@ -350,6 +354,51 @@ body.modal-aberto {
   }
   to {
     opacity: 0;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .conteiner-central-noticia {
+    width: 60vw;
+  }
+}
+
+/* Quando a tela for menor que 992px */
+@media screen and (max-width: 992px) {
+  .conteiner-central-noticia {
+    width: 70vw;
+  }
+}
+
+/* Quando a tela for menor que 768px */
+@media screen and (max-width: 768px) {
+  .conteiner-central-noticia {
+    width: 85vw;
+  }
+  .conteiner-central-noticia h1 {
+    font-size: 33px;
+  }
+  .conteiner-central-noticia .name-author {
+    font-size: 13px;
+  }
+  .modal-noticia-header p {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Quando a tela for menor que 480px (celulares menores) */
+@media screen and (max-width: 480px) {
+  .conteiner-central-noticia {
+    width: 90vw; /* Em telas pequenas, ocupa toda a largura */
+  }
+  .conteiner-central-noticia h1 {
+    font-size: 30px;
+  }
+  .conteiner-central-noticia .name-author {
+    font-size: 12px;
+  }
+  .modal-noticia-header p {
+    display: none;
   }
 }
 

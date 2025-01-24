@@ -9,5 +9,6 @@ export const getRelatedNews = async (name, pageSize = 1) => {
 
   const response = await fetch(urlSearch);
   const data = await response.json();
+  console.log(data);
   return data.articles;
 };

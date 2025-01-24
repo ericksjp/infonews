@@ -1,27 +1,22 @@
+import { getRelatedNews } from "../services/modalNewsApiService";
 import { criarNoticiaRegular } from "../ui/homeUiHandler";
 import { getTimePassed } from "./generic";
-import noticias from "./mockData";
 
 export class ModalNews {
   constructor() {
     this.currentNoticia;
     this.body = document.body;
+    this.stack = [];
   }
   create(currentNoticia) {
-    console.log(currentNoticia);
     this.currentNoticia = currentNoticia;
-
-    let modal = document.querySelector(".modal-noticia");
-
-    if (modal) {
-      this.updateContent(modal);
-      return;
-    }
 
     this.body.classList.add("modal-aberto");
 
-    modal = document.createElement("div");
+    const modal = document.createElement("div");
     modal.classList.add("modal-noticia");
+
+    this.stack.push(modal);
 
     this.renderHeader(modal);
 
@@ -31,35 +26,38 @@ export class ModalNews {
     this.body.appendChild(modal);
   }
 
-  updateContent(modal) {
-    // Limpa o conteúdo atual do modal
-    modal.innerHTML = "";
-
-    // Renderiza novamente o modal com os novos dados
-    this.renderHeader(modal);
-    this.renderBody(modal);
-  }
-
   renderHeader(modal) {
     const headerModal = document.createElement("div");
     headerModal.classList.add("modal-noticia-header");
+
+    if (this.stack.length > 1) {
+      const iconBackToBeforeModalNews = document.createElement("i");
+      iconBackToBeforeModalNews.className = "bx bx-left-arrow-alt";
+      iconBackToBeforeModalNews.classList.add("icon-close");
+
+      iconBackToBeforeModalNews.addEventListener("click", () =>
+        this.removeLast()
+      );
+
+      headerModal.appendChild(iconBackToBeforeModalNews);
+    }
+
+    if (this.currentNoticia?.title) {
+      const title = document.createElement("p");
+      title.textContent = this.currentNoticia.title.slice(0, 150) + "...";
+
+      headerModal.appendChild(title);
+    }
 
     const iconCloseModal = document.createElement("i");
     iconCloseModal.className = "bx bx-x";
     iconCloseModal.classList.add("icon-close");
 
     iconCloseModal.addEventListener("click", () => {
-      this.remove(modal);
+      this.removeAll();
     });
 
     headerModal.appendChild(iconCloseModal);
-
-    if (this.currentNoticia?.title) {
-      const title = document.createElement("p");
-      title.textContent = this.currentNoticia.title;
-
-      headerModal.appendChild(title);
-    }
 
     modal.appendChild(headerModal);
   }
@@ -98,12 +96,12 @@ export class ModalNews {
 
     conteinerNoticia.appendChild(conteinerAuthorAndDate);
 
-    if (this.currentNoticia?.urlToImage) {
-      const imageNoticia = document.createElement("img");
-      imageNoticia.src = this.currentNoticia.urlToImage;
+    const imageNoticia = document.createElement("img");
+    imageNoticia.src = this.currentNoticia?.urlToImage
+      ? this.currentNoticia?.urlToImage
+      : "../../assets/News-Placeholder.webp";
 
-      conteinerNoticia.appendChild(imageNoticia);
-    }
+    conteinerNoticia.appendChild(imageNoticia);
 
     if (this.currentNoticia?.description) {
       const description = document.createElement("p");
@@ -131,33 +129,55 @@ export class ModalNews {
 
     conteinerNoticia.appendChild(conteinerInfoNews);
 
-    this.relatedNews(conteinerNoticia);
+    this.RenderRelatedNews(conteinerNoticia);
 
     bodyModal.appendChild(conteinerNoticia);
     modal.appendChild(bodyModal);
   }
 
-  relatedNews(conteinerNoticia) {
-    const paragrafoRelatedNews = document.createElement("p");
-    paragrafoRelatedNews.textContent = "Related news";
-    paragrafoRelatedNews.classList.add("related-news");
+  async RenderRelatedNews(conteinerNoticia) {
+    try {
+      const name = this.currentNoticia?.source?.name
+        ? this.currentNoticia?.source?.name
+        : this.currentNoticia?.source?.id;
+      const articles = await getRelatedNews(name, 5);
 
-    const conteinerRelatedResults = document.createElement("div");
+      if (articles && articles.length > 0) {
+        const paragrafoRelatedNews = document.createElement("p");
+        paragrafoRelatedNews.textContent = "Related news";
+        paragrafoRelatedNews.classList.add("related-news");
 
-    const elementos = noticias.general.articles
-      .slice(0, 5)
-      .map(criarNoticiaRegular);
-    conteinerRelatedResults.replaceChildren(...elementos);
+        conteinerNoticia.appendChild(paragrafoRelatedNews);
 
-    conteinerNoticia.appendChild(paragrafoRelatedNews);
-    conteinerNoticia.appendChild(conteinerRelatedResults);
+        const conteinerRelatedResults = document.createElement("div");
+
+        const elementos = articles.map(criarNoticiaRegular);
+        conteinerRelatedResults.replaceChildren(...elementos);
+
+        conteinerNoticia.appendChild(conteinerRelatedResults);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  remove(modal) {
-    this.body.classList.remove("modal-aberto");
-    modal.classList.add("hide");
-    setTimeout(() => {
-      modal.remove();
-    }, 200);
+  removeLast() {
+    if (this.stack.length > 0) {
+      const modal = this.stack.pop(); // Remove o último modal da pilha
+      modal.classList.add("hide");
+      setTimeout(() => {
+        modal.remove();
+      }, 200);
+    }
+
+    if (this.stack.length === 0) {
+      this.body.classList.remove("modal-aberto"); // Remove a classe se não houver mais modais
+    }
+  }
+
+  removeAll() {
+    while (this.stack.length > 0) {
+      this.removeLast(); // Remove os modais um por um
+    }
   }
 }
