@@ -6,7 +6,7 @@ O **InfoNews** é um site desenvolvido para fornecer notícias de forma dinâmic
 - **Tatiany Souza** 🎨 
 - **Diego Leite** 💻 
 - **Gustavo Brito** 👨‍💻
-- 
+
 ## 🛠 Tecnologias Utilizadas
 
 - **HTML**: A linguagem de marcação usada para estruturar o conteúdo da web, como texto, imagens, links e outros elementos. 📝
