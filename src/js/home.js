@@ -1,6 +1,6 @@
-import { adicionarNoticias } from "./ui/homeUiHandler.js";
+import { carregarNoticias } from "./ui/homeUiHandler.js";
 import "./listeners/globalListeners.js";
-import apiService from "./services/newsApiService.js";
+import "./listeners/homeListener.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   window.scrollTo(0, 0);
@@ -10,11 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
   let category = sessionStorage.getItem("current-news-page");
   if (category) {
     sessionStorage.removeItem("current-news-page");
+    document.querySelector("#general").parentElement.classList.remove("current-selected-item");
+    const el = document.querySelector("#" + category);
+    el.parentElement.classList.add("current-selected-item");
   }
-  category = "general";
+  else category = "general";
+
   try {
-    const news = await apiService.getNewsByCategory(category);
-    adicionarNoticias(news);
+    carregarNoticias(category);
   } catch (error) {
     console.error(error);
   }
