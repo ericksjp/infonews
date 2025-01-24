@@ -150,6 +150,7 @@ export class ModalNews {
         conteinerNoticia.appendChild(paragrafoRelatedNews);
 
         const conteinerRelatedResults = document.createElement("div");
+        conteinerRelatedResults.classList.add("related-news-results");
 
         const elementos = articles.map(criarNoticiaRegular);
         conteinerRelatedResults.replaceChildren(...elementos);

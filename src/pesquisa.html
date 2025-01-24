@@ -50,10 +50,10 @@
     </header>
     <div id="search-input-div" class="ifn-container">
       <img src="./assets/search-icon.svg" alt="" id="search-icon" />
-      <form id="searchForm" onsubmit="event.preventDefault();" role="search">
-        <label for="searchInput">Search for stuff</label>
+      <form id="input-form">
+        <label for="search">Search for stuff</label>
         <input
-          id="searchInput"
+          id="search"
           type="search"
           placeholder="Search News..."
           autofocus
@@ -62,9 +62,12 @@
         <button class="input-btn" id="input-btn" type="submit">Go</button>
       </form>
     </div>
+    <span id="search-value-indicator"></span>
     <main id="search-results-container">
+      <div class="loader hidden"></div>
       <div id="newsResults">
         <!-- Resultados da pesquisa serão adicionados aqui -->
+        <h2 id="no-results-found-indicator">No Results Found!!!</h2>
       </div>
     </main>
     <footer class="rodape">
@@ -81,5 +84,3 @@
     <script src="footer.js"></script>
   </body>
 </html>
-
-

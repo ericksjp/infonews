@@ -51,7 +51,7 @@
     <main>
       <div id="search-input-div" class="ifn-container">
         <img src="./assets/search-icon.svg" alt="" id="search-icon" />
-        <form id="input-form" onsubmit="performSearch(event);" role="search">
+        <form id="input-form">
           <label for="search">Search for stuff</label>
           <input
             id="search"
@@ -84,13 +84,5 @@
     <script type="module" src="./main.js"></script>
     <script type="module" src="./js/home.js"></script>
     <script src="footer.js"></script>
-    <script>
-      function performSearch(event) {
-        event.preventDefault();
-        const query = document.getElementById("search").value;
-        localStorage.setItem("searchQuery", query);
-        window.location.href = "pesquisa.html";
-      }
-    </script>
-  </body>
+    </body>
 </html>

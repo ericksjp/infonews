@@ -1,6 +1,7 @@
 class ApiService {
   #categories;
   #newsMap;
+  #queryMap;
   #refreshTime;
   #baseUrl;
 
@@ -18,6 +19,7 @@ class ApiService {
     ];
     this.sortByOptions = ["relevancy", "popularity", "publishedAt"];
     this.#newsMap = new Map();
+    this.#queryMap = new Map();
     this.#refreshTime = refreshTime * 1000;
     this.sortBy = sortBy;
 
@@ -39,25 +41,32 @@ class ApiService {
   async getNewsByCategory(category, sortBy = "relevancy") {
     this.#validateCategory(category);
     this.#validateSortBy(sortBy);
-    console.log("here")
-    const data = await this.#fetchNews(category, sortBy);
-    return data.news;
+    return (await this.#fetchData("category", { category, sortBy })).news;
+  }
+
+  async queryNews(query) {
+    this.#validateQuery(query);
+    const trimmedQuery = query.trim().toLowerCase();
+    return (await this.#fetchData("query", { query: trimmedQuery })).news;
+  }
+
+  getQueryNewsFromCache(query) {
+    const trimmedQuery = query.trim().toLowerCase();
+    return this.#getCachedData(this.#queryMap, trimmedQuery);
+  }
+
+  isQueryCachedAndValid(query) {
+    const trimmedQuery = query.trim().toLowerCase();
+    return this.#isCachedValid(this.#queryMap.get(trimmedQuery)?.time);
   }
 
   getNewsByCategoryFromCache(category) {
     this.#validateCategory(category);
-    const cachedData = this.#newsMap.get(category);
-    if (cachedData) {
-      return this.#isCachedValid(cachedData.time) ? cachedData.news : undefined;
-    }
+    return this.#getCachedData(this.#newsMap, category);
   }
 
   isCachedAndValid(category) {
-    const cachedData = this.#newsMap.get(category);
-    if (cachedData) {
-      return this.#isCachedValid(cachedData.time);
-    }
-    return false;
+    return this.#isCachedValid(this.#newsMap.get(category)?.time);
   }
 
   #isCachedValid(cacheTime) {
@@ -76,35 +85,48 @@ class ApiService {
     }
   }
 
-  // busca as noticias da API, se ocorrer algum erro na operação, retorna as noticias do cache
-  async #fetchNews(category, sortBy) {
-    try {
-      const response = await fetch(`${this.#baseUrl}/top-headlines?category=${category}&sortBy=${sortBy}&apiKey=${this.apiKey}`);
+  #validateQuery(query) {
+    if (typeof query !== "string" || query.trim() === "") {
+      throw new Error("Query must be a non-empty string.");
+    }
+  }
 
-      // se a resposta nao for ok, lanca um erro
-      if (!response.ok) throw new Error(`Failed to fetch news: ${response.status}`);
+  async #fetchData(type, params) {
+    const { category, sortBy, query } = params;
+    const cacheMap = type === "category" ? this.#newsMap : this.#queryMap;
+    const cacheKey = type === "category" ? category : query;
+    const endpoint =
+      type === "category"
+        ? `top-headlines?category=${category}&sortBy=${sortBy}`
+        : `everything?q=${encodeURIComponent(query)}`;
+
+    try {
+      const response = await fetch(
+        `${this.#baseUrl}${endpoint}&apiKey=${this.apiKey}`,
+      );
+      if (!response.ok)
+        throw new Error(`Failed to fetch news: ${response.status}`);
 
       const data = await response.json();
-      console.log(data)
-
-      // se a resposta nao tiver a propriedade articles, lanca um erro
       if (!data.articles) throw new Error("Invalid response data");
 
-      const object = {time: Date.now(), news: data.articles};
+      if (type === "query" && this.#queryMap.size >= 5) {
+        const lastKey = Array.from(this.#queryMap.keys()).pop();
+        this.#queryMap.delete(lastKey);
+      }
 
-      // atualiza o cache e o salva no localStorage
-      this.#newsMap.set(category, object);
+      const object = { time: Date.now(), news: data.articles };
+
+      // Update cache and save to storage
+      cacheMap.set(cacheKey, object);
       this.#saveToStorage();
-
-      // para evitar uma consulta x2 no map, retorna o objeto
       return object;
     } catch (err) {
-      console.error(`Error fetching news for category '${category}':`, err);
+      console.error(`Error fetching news for ${type} '${cacheKey}':`, err);
 
-      // se houver dados no cache, retorna esses dados, caso contrario, retorna um objeto com um array vazio como noticias
-      const cachedData = this.#newsMap.get(category);
+      const cachedData = cacheMap.get(cacheKey);
       if (cachedData) {
-        console.warn("Returning cached news due to fetch error.");
+        console.warn(`Returning cached ${type} news due to fetch error.`);
         return cachedData;
       }
 
@@ -112,11 +134,16 @@ class ApiService {
     }
   }
 
-  // salva os dados no localStorage
+  #getCachedData(cacheMap, key) {
+    const cachedData = cacheMap.get(key);
+    return this.#isCachedValid(cachedData?.time) ? cachedData.news : undefined;
+  }
+
   #saveToStorage() {
     try {
       const data = {
         newsMap: Array.from(this.#newsMap.entries()),
+        queryMap: Array.from(this.#queryMap.entries()),
         refreshTime: this.#refreshTime,
       };
       localStorage.setItem("apiService", JSON.stringify(data));
@@ -125,13 +152,13 @@ class ApiService {
     }
   }
 
-  // recupera os dados do localStorage
   #loadFromStorage() {
     try {
       const storedData = localStorage.getItem("apiService");
       if (storedData) {
-        const { newsMap, refreshTime } = JSON.parse(storedData);
+        const { newsMap, queryMap, refreshTime } = JSON.parse(storedData);
         this.#newsMap = new Map(newsMap);
+        this.#queryMap = new Map(queryMap);
         this.#refreshTime = refreshTime;
       }
     } catch (err) {
@@ -141,9 +168,9 @@ class ApiService {
 }
 
 const apiService = new ApiService(
-  "23df153f2c7b4529bc4cd27f5d701952", // triste, porem necessario :(
+  "", // insira sua chave de api
   300,
-  "publishedAt"
+  "publishedAt",
 );
 
 export default apiService;

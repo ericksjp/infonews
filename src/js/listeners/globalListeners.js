@@ -39,12 +39,3 @@ document.addEventListener("click", (event) => {
     nav_menu.classList.remove("active");
   }
 });
-
-// realiza a pesquisa com base no que foi escrito
-document.getElementById("input-form")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    const query = document.getElementById("searchInput").value;
-    localStorage.setItem("searchQuery", query);
-    window.location.href = "pesquisa.html";
-  });
