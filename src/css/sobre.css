@@ -1,0 +1,23 @@
+.conteiner-sobre {
+  padding-top: 5vh;
+  min-height: 100vh;
+  margin: 0 auto;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.conteiner-sobre h1 {
+  font-style: normal;
+  text-align: start;
+}
+
+.conteiner-sobre .texto {
+  p {
+    font-size: 18px;
+    text-indent: 5px;
+    text-align: justify;
+    color: #424242;
+  }
+}
