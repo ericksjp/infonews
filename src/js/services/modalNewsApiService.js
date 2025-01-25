@@ -1,4 +1,4 @@
-const apiKey = "23df153f2c7b4529bc4cd27f5d701952";
+const apiKey = "23df153f2c7b4529bc4cd27f5d701952"; //sua chave api
 const urlBase = "https://newsapi.org/v2/";
 
 export const getRelatedNews = async (name, pageSize = 1) => {

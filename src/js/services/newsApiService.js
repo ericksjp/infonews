@@ -102,7 +102,7 @@ class ApiService {
 
     try {
       const response = await fetch(
-        `${this.#baseUrl}${endpoint}&apiKey=${this.apiKey}`,
+        `${this.#baseUrl}${endpoint}&apiKey=${this.apiKey}`
       );
       if (!response.ok)
         throw new Error(`Failed to fetch news: ${response.status}`);
@@ -168,9 +168,9 @@ class ApiService {
 }
 
 const apiService = new ApiService(
-  "", // insira sua chave de api
+  "23df153f2c7b4529bc4cd27f5d701952", // insira sua chave de api
   300,
-  "publishedAt",
+  "publishedAt"
 );
 
 export default apiService;
