@@ -1,6 +1,23 @@
 @import url("../styles.css");
 @import url("./loader.css");
 
+body {
+  display: flex;
+  flex-direction: column;
+  /* min-height: 100vh; */
+  justify-content: space-between;
+  padding-top: env(safe-area-inset-top);
+  min-height: calc(100vh - env(safe-area-inset-top));
+}
+
+.loader {
+  position: absolute !important;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
 #search-input-div {
   margin-top: 1rem;
 }

@@ -9,7 +9,6 @@ import {
   main,
   secaoIndicator,
 } from "../util/homeTags.js";
-import { current_selected_nav_item } from "../util/globalTags.js";
 import apiService from "../services/newsApiService.js";
 
 /* --- helpers --- */
@@ -166,6 +165,7 @@ export function handleNoNewsFound(category) {
   noticiasRegularesSection.classList.add("hidden");
   noNewsFoundDiv.classList.remove("hidden");
   category = category.charAt(0).toUpperCase() + category.slice(1);
+  console.log(category)
   noNewsFoundH2.textContent = "No news found in " + category;
   return;
 }
@@ -193,7 +193,7 @@ export function handleNewsFound() {
  */
 export function adicionarNoticias(noticias) {
   if (noticias.length === 0) {
-    handleNoNewsFound(current_selected_nav_item.children[0].id);
+    handleNoNewsFound(document.querySelector(".current-selected-item").children[0].id);
     return;
   }
   handleNewsFound();
@@ -213,11 +213,11 @@ export function adicionarNoticias(noticias) {
 
 export function toggleLoader(showLoader = true) {
   if (showLoader) {
-    loader.classList.remove("hidden");
-    main.classList.add("hidden");
+    loader.style.opacity = 1;
+    main.style.opacity = 0;
   } else {
-    loader.classList.add("hidden");
-    main.classList.remove("hidden");
+    loader.style.opacity = 0;
+    main.style.opacity = 1;
   }
 }
 
@@ -237,7 +237,7 @@ export async function carregarNoticias(categoryId) {
 
 export async function handleNavLinkClick(e) {
   const parent = e.parentElement;
-    if (window.location.pathname !== "/" || window.location.pathname !== "/index.html") {
+  if (window.location.pathname !== "/" && window.location.pathname !== "/index.html") {
     sessionStorage.setItem("current-news-page", e.id);
     window.location.href = "/";
   } else {

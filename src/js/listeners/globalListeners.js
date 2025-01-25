@@ -13,9 +13,10 @@ nav_links.forEach((e) => {
   e.addEventListener("click", () => handleNavLinkClick(e));
 });
 
-// Make the header hide when scrolling
+const headerHeight = header.offsetHeight;
+
 window.addEventListener("scroll", () => {
-  if (window.scrollY > header.offsetHeight) {
+  if (window.scrollY > headerHeight) {
     if (window.innerWidth > 769) title.style.fontSize = "var(--font-size-xl)";
     header.classList.add("sticky-header");
   } else {
