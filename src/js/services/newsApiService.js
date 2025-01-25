@@ -1,3 +1,5 @@
+const API_KEY = ""; // insira sua chave de api
+
 class ApiService {
   #categories;
   #newsMap;
@@ -167,10 +169,6 @@ class ApiService {
   }
 }
 
-const apiService = new ApiService(
-  "23df153f2c7b4529bc4cd27f5d701952", // insira sua chave de api
-  300,
-  "publishedAt"
-);
+const apiService = new ApiService(API_KEY, 300, "publishedAt");
 
 export default apiService;
