@@ -1,14 +1,22 @@
 import apiService from "../services/newsApiService";
 import { criarElemento } from "../util/generic";
+import { modalNews } from "../util/globalTags";
 import { loader } from "../util/homeTags";
-import { noResultsFoundIndicator, searchValueIndicator } from "../util/pesquisaTags";
+import {
+  noResultsFoundIndicator,
+  searchValueIndicator,
+} from "../util/pesquisaTags";
 
 const criarElementoPesquisa = (article) => {
-  const {title, description, author, publishedAt, urlToImage, url} = article;
+  const { title, description, author, publishedAt, urlToImage, url } = article;
   // Create the main article container
 
   const noticia = criarElemento("div", {
     classe: "article",
+  });
+
+  noticia.addEventListener("click", () => {
+    modalNews.create(article);
   });
 
   const imageDiv = criarElemento("div", {
@@ -38,7 +46,6 @@ const criarElementoPesquisa = (article) => {
   const titleElement = criarElemento("h2", { conteudoTexto: title });
   contentDiv.appendChild(titleElement);
 
-
   let sliced = description.slice(0, 150);
   if (sliced.length === 150) sliced += "...";
   const descriptionElement = criarElemento("p", { conteudoTexto: sliced });
@@ -47,17 +54,17 @@ const criarElementoPesquisa = (article) => {
   // Create the author and date element
   const publishedDate = new Date(publishedAt).toLocaleDateString();
 
-  let authorSliced = author && author.slice(0, 100).replaceAll("\n", "") || "Unknown";
-  const metaElement = criarElemento("span", { conteudoTexto: `Por ${authorSliced} em ${publishedDate || ""}` });
+  let authorSliced =
+    (author && author.slice(0, 100).replaceAll("\n", "")) || "Unknown";
+  const metaElement = criarElemento("span", {
+    conteudoTexto: `Por ${authorSliced} em ${publishedDate || ""}`,
+  });
   contentDiv.appendChild(metaElement);
 
   // Create the link element
   const linkElement = criarElemento("a", {
-    atributos: {
-      href: url,
-      target: "_blank"
-    },
-    conteudoTexto: "Read more"
+    atributos: {},
+    conteudoTexto: "Read more",
   });
 
   contentDiv.appendChild(linkElement);
