@@ -218,6 +218,9 @@ header {
 }
 
 @media (min-width: 769px) {
+  #secao-indicator {
+    display: none;
+  }
   .navbar {
     display: flex;
     justify-content: center;

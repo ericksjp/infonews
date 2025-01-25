@@ -15,7 +15,7 @@ const criarElementoPesquisa = (article) => {
     classe: "imageDiv",
     atributos: {
       style: `
-      background-image: url("../../assets/News-Placeholder.webp");
+      background-image: url("/assets/News-Placeholder.webp");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -31,15 +31,6 @@ const criarElementoPesquisa = (article) => {
     };
   }
   noticia.appendChild(imageDiv);
-
-  // // Create the image element
-  // const imageElement = criarElemento("img", {
-  //   atributos: {
-  //     src: article.urlToImage || "../../assets/News-Placeholder.webp",
-  //     alt: "News Image"
-  //   }
-  // });
-  // articleElement.appendChild(imageElement);
 
   const contentDiv = criarElemento("div", { classe: "content" });
 

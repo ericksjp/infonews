@@ -99,7 +99,7 @@ export class ModalNews {
     const imageNoticia = document.createElement("img");
     imageNoticia.src = this.currentNoticia?.urlToImage
       ? this.currentNoticia?.urlToImage
-      : "../../assets/News-Placeholder.webp";
+      : "/assets/News-Placeholder.webp";
 
     conteinerNoticia.appendChild(imageNoticia);
 

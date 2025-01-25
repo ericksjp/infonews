@@ -7,6 +7,7 @@ import {
   noticiasRegularesSection,
   loader,
   main,
+  secaoIndicator,
 } from "../util/homeTags.js";
 import { current_selected_nav_item } from "../util/globalTags.js";
 import apiService from "../services/newsApiService.js";
@@ -49,10 +50,10 @@ export function criarNoticiaRegular(dadosnoticia, position) {
   const imagem = criarElemento("img", {
     classe: "noticia-imagem border-radius",
     atributos: {
-      src: urlToImage || "../../assets/News-Placeholder.webp",
+      src: urlToImage || "/assets/News-Placeholder.webp",
       alt: "",
       style: `
-        background-image: url(../../assets/News-Placeholder.webp);
+        background-image: url(/assets/News-Placeholder.webp);
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -92,7 +93,7 @@ function criarNoticiaPrincipalOuSecundaria(ePrincipal, dadosnoticia) {
   const noticia = criarElemento("article", {
     classe: `noticia ${!ePrincipal && "noticia-secundaria"}`,
     atributos: {
-      style: `background-image: url("../../assets/News-Placeholder.webp");`,
+      style: `background-image: url("/assets/News-Placeholder.webp");`,
     },
   });
 
@@ -222,6 +223,7 @@ export function toggleLoader(showLoader = true) {
 
 // usa o ApiService para carregar noticias de uma categoria especifica e adiciona-las a interface do usuario
 export async function carregarNoticias(categoryId) {
+  secaoIndicator.textContent = categoryId;
   // se as noticias estiverem cacheadas, usa elas, caso contrario, busca na api
   let cached = apiService.getNewsByCategoryFromCache(categoryId);
   if (cached) return adicionarNoticias(cached);

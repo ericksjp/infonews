@@ -53,6 +53,11 @@ main {
   justify-content: center;
 }
 
+#secao-indicator {
+  margin-bottom: var(--spacing-xs);
+  font-style: italic;
+}
+
 #secao-noticias-destaque .noticia-areaTexto {
   margin-top: auto;
   background-color: rgba(0, 0, 0, 0.7);
