@@ -1,11 +1,9 @@
 .conteiner-sobre {
-  padding-top: 5vh;
-  min-height: 100vh;
-  margin: 0 auto;
+  margin: 1rem auto;
   width: 70vw;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .conteiner-sobre h1 {

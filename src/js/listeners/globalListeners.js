@@ -5,6 +5,7 @@ import {
   hamburger,
   nav_menu,
   nav_links,
+  backToTopButton,
 } from "../util/globalTags.js";
 import { handleNavLinkClick } from "../ui/homeUiHandler.js";
 
@@ -38,4 +39,12 @@ document.addEventListener("click", (event) => {
     hamburger.classList.remove("active");
     nav_menu.classList.remove("active");
   }
+});
+
+// Adicionar o clique
+backToTopButton.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 });
