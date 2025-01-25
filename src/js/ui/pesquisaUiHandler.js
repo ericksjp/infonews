@@ -83,10 +83,11 @@ export async function carregarPesquisas(query) {
   let cached = apiService.getQueryNewsFromCache(query);
   if (cached) return adicionarPesquisas(cached);
 
-  loader.classList.remove("hidden")
+  // loader.classList.remove("hidden")
+  loader.style.opacity = "1";
   const pesquisas = await apiService.queryNews(query);
   adicionarPesquisas(pesquisas);
   searchValueIndicator.classList.remove("hidden");
   searchValueIndicator.textContent = "Showing results for: " + query;
-  loader.classList.add("hidden")
+  loader.style.opacity = "0";
 }
