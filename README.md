@@ -2,9 +2,9 @@
 
 O **InfoNews** é um site desenvolvido para fornecer notícias de forma dinâmica e acessível. Este projeto foi desenvolvido por:
 
-- **Erick Ribeiro** 📱 
-- **Tatiany Souza** 🎨 
-- **Diego Leite** 💻 
+- **Erick Ribeiro** 📱
+- **Tatiany Souza** 🎨
+- **Diego Leite** 💻
 - **Gustavo Brito** 👨‍💻
 
 ## 🛠 Tecnologias Utilizadas
@@ -16,8 +16,48 @@ O **InfoNews** é um site desenvolvido para fornecer notícias de forma dinâmic
 - **[NewsAPI](https://newsapi.org/docs)**: Uma API que fornece acesso a notícias de diversas fontes confiáveis ao redor do mundo, permitindo exibir conteúdo atualizado em seu site. 📰
 - **[Vite](https://vitejs.dev/)**: Um build tool e servidor de desenvolvimento extremamente rápido que melhora a experiência de desenvolvimento com recarga instantânea. ⚙️
 
-## 🚀 Como Rodar o Projeto
+# 🚀 Como Rodar o Projeto - InfoNews
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/ericksjp/infonews.git
+Siga os passos abaixo para configurar e rodar o projeto em seu ambiente de desenvolvimento.
+
+### 1. Clone o repositório
+
+Primeiro, clone o repositório para o seu ambiente local:
+
+```bash
+git clone https://github.com/ericksjp/infonews.git
+```
+
+### 2. Instale as dependências
+
+Entre no diretório do projeto e instale as dependências com o NPM:
+
+```bash
+cd infonews && npm install
+```
+
+### 3. Configuração da NewsAPI
+
+Para que o projeto funcione corretamente, você precisará de uma chave da NewsAPI. Obtenha sua chave em <https://newsapi.org>.
+
+Após obter sua chave, insira-a no arquivo src/js/services/newsApiService.js.
+
+### 4. Rodando o projeto em modo de desenvolvimento
+
+Para iniciar o servidor de desenvolvimento, utilize o comando abaixo:
+
+```bash
+npm run dev
+```
+
+Verifique a saída do terminal e insira a URL gerada pelo Vite no seu navegador.
+
+### 5. (Opcional) Buildar o projeto para produção
+
+Se você deseja gerar uma versão otimizada do projeto para produção, utilize o comando abaixo:
+
+```bash
+npm run build
+```
+
+Isso criará uma pasta `dist` com todos os arquivos otimizados para deploy.
